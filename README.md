@@ -16,6 +16,7 @@ Open a terminal.
 From the repo root:
 ```
 cd assignment2/backend
+python3 -m venv .venv
 source .venv/bin/activate   #Windows: .venv\Scripts\activate
 pip install fastapi
 pip install uvicorn

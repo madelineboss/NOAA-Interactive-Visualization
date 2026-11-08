@@ -14,13 +14,15 @@ The project has two halves that run at the same time on your computer.
 #### Backend
 Open a terminal.
 From the repo root:
+```
 cd assignment2/backend
+python3 -m venv .venv
 source .venv/bin/activate   #Windows: .venv\Scripts\activate
 pip install fastapi
 pip install uvicorn
 pip install pandas
 uvicorn main:app --port 8000
-
+```
 You should see:
 Loaded 112 stations, ... station-months
 INFO:   Uvicorn running on http://127.0.0.1:8000
@@ -30,10 +32,11 @@ Leave this terminal running.
 #### Frontend
 Open a new (second) terminal.
 From the root:
+```
 cd assignment2/frontend
 npm install
 npm run dev
-
+```
 Should give http://localhost:5173, if not follow the link it will provide to you.
 
 #### Jupyter Notebook
