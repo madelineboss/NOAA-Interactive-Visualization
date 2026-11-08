@@ -4,14 +4,14 @@ export const API = "http://localhost:8000";
 // skip names is the filter a view must ignore (its own selection)
 
 export function selectionParams(sel, skip){
+    const skips = [].concat(skip)
     const p = new URLSearchParams({var: sel.var});
-    if (skip !== "stations" && sel.stations.length) p.set("stations", sel.stations.join(","));
-    if (skip !== "years" && sel.years) {
+    if (!skips.includes("stations") && sel.stations.length) p.set("stations", sel.stations.join(","));
+    if(!skips.includes("years") && sel.years) {
         p.set("year_min", sel.years[0]);
         p.set("year_max", sel.years[1]);
     }
-
-    if (skip !== "months" && sel.months.length) p.set("months", sel.months.join(","));
+    if(!skips.includes("months") && sel.months.length) p.set("months", sel.months.join(","));
     return p;
 }
 

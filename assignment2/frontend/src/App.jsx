@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {getJSON, selectionParams} from "./api";
+import Timeline from "./Timeline";
 
 //views read it and ask App to change it; none keeps it own copy
 const EMPTY = {var: "tavg", stations:[], years: null, months: []};
@@ -27,10 +28,12 @@ export default function App() {
   // Each view skips its own filter (see backend docstring)
   const stations = useApi("/api/stations", selectionParams(sel, "stations"));
   const timeseries = useApi("/api/timeseries", selectionParams(sel, "years"));
+  const timeseriesAll = useApi("/api/timeseries", selectionParams(sel, ["years", "stations"]));
   const seasonal = useApi("/api/seasonal", selectionParams(sel, "months"));
  
   if (!meta) return <p>Loading… (is the backend running on port 8000?)</p>;
- 
+  const unit = meta.variables[sel.var].unit;
+  
   return (
     <main style={{ fontFamily: "system-ui", padding: 24 }}>
       <h1>U.S. Warming by Region and Season</h1>
@@ -44,11 +47,20 @@ export default function App() {
         </select>
       </label>{" "}
       <button onClick={() => setSel(EMPTY)}>Reset</button>
- 
-      {/* Step 1 only: test buttons that fake what the charts will do */}
+      
+      <Timeline
+        data={timeseries}
+        context={timeseriesAll}
+        years={sel.years}
+        onYears={(years) => update({years})}
+        yearRange={[meta.year_min, meta.year_max]}
+        baseline={meta.baseline}
+        unit={unit}
+        hasStationSel={sel.stations.length > 0}
+
+      />
       <h2>Test the shared state</h2>
       <button onClick={() => update({ months: [12, 1, 2] })}>Select winter</button>{" "}
-      <button onClick={() => update({ years: [1991, 2025] })}>Select 1991–2025</button>{" "}
       <button onClick={() => update({ stations: stations.slice(0, 5).map((s) => s.id) })}>
         Select 5 stations
       </button>
