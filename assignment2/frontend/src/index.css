@@ -34,3 +34,13 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px; }
 
 /* Year brush on the timeline: light blue band instead of d3's default gray */
 .brush .selection { fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-opacity: 0.6; }
+
+/* Seasonal chart */
+.seasonal-wrap { max-width: 560px; }
+.legend .swatch { width: 12px; height: 12px; border-radius: 3px; }
+.season-buttons { display: flex; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+.season-buttons button {
+  font: inherit; font-size: 12px; padding: 3px 10px; cursor: pointer;
+  border: 1px solid #d6d5d0; border-radius: 999px; background: #fff; color: #0b0b0b;
+}
+.season-buttons button.on { background: #0b0b0b; border-color: #0b0b0b; color: #fff; }
