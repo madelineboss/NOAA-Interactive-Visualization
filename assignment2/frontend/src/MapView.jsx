@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import { feature, mesh } from "topojson-client";
 import us from "us-atlas/states-albers-10m.json";   // U.S. states, already projected to 975 × 610
 import { POLARITY, NEUTRAL, TEXT2, signed } from "./colors";
+import { REGIONS } from "./Groups";
 
 const W = 975, H = 610;
 // Same projection us-atlas used, so station dots line up with the state outlines
@@ -11,13 +12,6 @@ const path = d3.geoPath();
 const states = feature(us, us.objects.states);
 const borders = mesh(us, us.objects.states, (a, b) => a !== b);
 
-// U.S. Census Bureau regions, for one-click regional selection
-const REGIONS = {
-  Northeast: ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
-  Midwest: ["IL", "IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD"],
-  South: ["DE", "FL", "GA", "MD", "NC", "SC", "VA", "DC", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX"],
-  West: ["AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY", "CA", "OR", "WA"],
-};
 
 /**
  * Map: every station, colored by its departure from normal for the selected years and months.
@@ -27,7 +21,7 @@ const REGIONS = {
  *   selected    selected station ids        (from the shared selection)
  *   onStations  called with new list of ids (writes to the shared selection)
  */
-export default function MapView({ data, selected, onStations, variable, unit }) {
+export default function MapView({ data, loading, selected, onStations, variable, unit }) {
   const svgRef = useRef(null);
   const tipRef = useRef(null);
   const pol = POLARITY[variable];
@@ -100,8 +94,8 @@ export default function MapView({ data, selected, onStations, variable, unit }) 
   const regionOn = (ids) => ids.length > 0 && ids.length === selected.length && ids.every((id) => selected.includes(id));
 
   return (
-    <figure className="view">
-      <h2>Where? Departure from normal by station</h2>
+    <figure className={`view${loading ? " loading" : ""}`}>
+      <h2><span className="step">2</span>Where? Departure from normal by station</h2>
       <div className="map-legend">
         <div>
           <div className="gradient" style={{ background: `linear-gradient(to right, ${stops.join(",")})` }} />

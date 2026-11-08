@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { POLARITY, TEXT2, signed } from "./colors";
+import { SEASONS } from "./Groups";
 
-const W = 440, H = 300;
+const W = 440, H = 340;
 const M = { top: 16, right: 12, bottom: 40, left: 64 };
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const SEASONS = { Winter: [12, 1, 2], Spring: [3, 4, 5], Summer: [6, 7, 8], Fall: [9, 10, 11] };
 const ORDER = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];   // start at December so winter is together
 
 // Bar with a 4px rounded end away from the zero line
@@ -26,7 +26,7 @@ const sameSet = (a, b) => a.length === b.length && a.every((m) => b.includes(m))
  *   months    selected months, e.g. [12, 1, 2]   (from the shared selection)
  *   onMonths  called with the new list of months (writes to the shared selection)
  */
-export default function Seasonal({ data, months, onMonths, variable, unit, rawUnit, baseline }) {
+export default function Seasonal({ data, loading, months, onMonths, variable, unit, rawUnit, baseline }) {
   const svgRef = useRef(null);
   const tipRef = useRef(null);
   const pol = POLARITY[variable];
@@ -98,8 +98,8 @@ export default function Seasonal({ data, months, onMonths, variable, unit, rawUn
   }, [data, months, onMonths, pol, unit, rawUnit]);
 
   return (
-    <figure className="view">
-      <h2>Which months? Departure from normal by month</h2>
+    <figure className={`view${loading ? " loading" : ""}`}>
+      <h2><span className="step">1</span>Which months? Departure from normal by month</h2>
       <div className="legend">
         <span><i className="swatch" style={{ background: pol.posColor }} /> {pol.pos}</span>
         <span><i className="swatch" style={{ background: pol.negColor }} /> {pol.neg}</span>

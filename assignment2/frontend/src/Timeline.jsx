@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-const W = 900, H = 280;
+const W = 1200, H = 240;
 const M = { top: 16, right: 20, bottom: 40, left: 64 };
 const SEL_COLOR = "#2a78d6";   // selected stations
 const ALL_COLOR = "#a8a7a1";   // all stations (context)
@@ -14,7 +14,7 @@ const ALL_COLOR = "#a8a7a1";   // all stations (context)
  *   years     the selected [min, max] or null      (from the shared selection)
  *   onYears   called with [min, max] or null       (writes to the shared selection)
  */
-export default function Timeline({ data, context, years, onYears, yearRange, unit, baseline, hasStationSel }) {
+export default function Timeline({ data, context, loading, years, onYears, yearRange, unit, baseline, hasStationSel }) {
   const svgRef = useRef(null);
   const tipRef = useRef(null);
   const brushRef = useRef(null);
@@ -116,8 +116,8 @@ export default function Timeline({ data, context, years, onYears, yearRange, uni
   }, [years]);
 
   return (
-    <figure className="view">
-      <h2>Since when? Yearly departure from normal</h2>
+    <figure className={`view${loading ? " loading" : ""}`}>
+      <h2><span className="step">3</span>Since when? Yearly departure from normal</h2>
       {hasStationSel && (
         <div className="legend">
           <span><i style={{ background: SEL_COLOR }} /> Selected stations</span>

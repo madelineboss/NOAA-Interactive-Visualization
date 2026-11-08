@@ -1,51 +1,75 @@
-/* Basic styles. Step 5 (layout) will build on these. */
+/* ---------- Page ---------- */
 body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
   color: #0b0b0b;
-  background: #fcfcfb;
+  background: #f6f5f2;
 }
-main { max-width: 1100px; margin: 0 auto; padding: 24px; }
+main { max-width: 1320px; margin: 0 auto; padding: 20px 24px 32px; }
 
-.view { margin: 24px 0; }
-.view h2 { font-size: 16px; margin: 0 0 4px; }
-.view figcaption { font-size: 13px; color: #52514e; margin-top: 4px; }
+/* ---------- Header ---------- */
+.header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.header h1 { font-size: 24px; margin: 0 0 4px; }
+.intro { margin: 0; font-size: 14px; color: #52514e; max-width: 760px; line-height: 1.45; }
+.controls { display: flex; gap: 10px; align-items: center; font-size: 14px; white-space: nowrap; }
+.controls select, .controls button { font: inherit; font-size: 13px; padding: 4px 8px; }
+.reset { border: 1px solid #d6d5d0; border-radius: 6px; background: #fff; cursor: pointer; }
+
+/* ---------- Selection summary ---------- */
+.summary { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 14px 0; font-size: 13px; min-height: 26px; }
+.summary-label { color: #52514e; }
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #0b0b0b; color: #fff; border-radius: 999px; padding: 3px 4px 3px 10px;
+}
+.chip button {
+  border: none; background: rgba(255, 255, 255, 0.2); color: #fff; border-radius: 50%;
+  width: 18px; height: 18px; line-height: 16px; padding: 0; cursor: pointer; font-size: 13px;
+}
+
+.error {
+  background: #fdecec; border: 1px solid #f3b9b8; border-radius: 8px;
+  padding: 10px 14px; margin: 12px 0; font-size: 14px;
+}
+
+/* ---------- Dashboard grid ---------- */
+.dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  grid-template-areas:
+    "seasonal map"
+    "timeline timeline";
+  gap: 16px;
+}
+.area-seasonal { grid-area: seasonal; }
+.area-map { grid-area: map; }
+.area-timeline { grid-area: timeline; }
+@media (max-width: 900px) {
+  .dashboard { grid-template-columns: 1fr; grid-template-areas: "seasonal" "map" "timeline"; }
+  .header { flex-direction: column; }
+}
+
+/* ---------- Views (cards) ---------- */
+.view {
+  margin: 0; height: 100%; box-sizing: border-box;
+  background: #fff; border: 1px solid #e3e2de; border-radius: 10px; padding: 14px 16px;
+  transition: opacity 0.15s;
+}
+.view.loading { opacity: 0.55; }
+.view h2 { font-size: 15px; margin: 0 0 6px; display: flex; align-items: center; gap: 8px; }
+.step {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 22px; height: 22px; border-radius: 50%; background: #0b0b0b; color: #fff; font-size: 12px;
+}
+.view figcaption { font-size: 12.5px; color: #52514e; margin-top: 6px; line-height: 1.4; }
 .view svg { display: block; overflow: visible; }
 .view text { font-family: inherit; }
 
-.legend { display: flex; gap: 16px; font-size: 12px; color: #52514e; margin-bottom: 4px; }
+/* ---------- Legends ---------- */
+.legend { display: flex; gap: 16px; font-size: 12px; color: #52514e; margin-bottom: 4px; min-height: 16px; }
 .legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }
-
-.tooltip {
-  display: none;
-  position: absolute;
-  top: 0;
-  transform: translate(12px, 0);
-  pointer-events: none;
-  background: #fff;
-  border: 1px solid #e0dfdb;
-  border-radius: 6px;
-  padding: 6px 8px;
-  font-size: 12px;
-  line-height: 1.4;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  white-space: nowrap;
-}
-
-/* Year brush on the timeline: light blue band instead of d3's default gray */
-.brush .selection { fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-opacity: 0.6; }
-
-/* Seasonal chart */
-.seasonal-wrap { max-width: 560px; }
 .legend .swatch { width: 12px; height: 12px; border-radius: 3px; }
-.season-buttons { display: flex; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
-.season-buttons button {
-  font: inherit; font-size: 12px; padding: 3px 10px; cursor: pointer;
-  border: 1px solid #d6d5d0; border-radius: 999px; background: #fff; color: #0b0b0b;
-}
-.season-buttons button.on { background: #0b0b0b; border-color: #0b0b0b; color: #fff; }
 
-/* Map legend */
 .map-legend { display: flex; align-items: flex-start; gap: 24px; font-size: 12px; color: #52514e; margin: 4px 0; }
 .map-legend .gradient { width: 260px; height: 10px; border-radius: 3px; }
 .gradient-labels { display: flex; justify-content: space-between; width: 260px; margin-top: 2px; white-space: nowrap; }
@@ -55,4 +79,23 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px; }
 }
 .map-legend .dot.selected { border: 2.5px solid #0b0b0b; background: #f0efec; }
 
-pre { white-space: pre-wrap; word-break: break-all; }
+/* ---------- Pill buttons (seasons, regions) ---------- */
+.season-buttons { display: flex; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+.season-buttons button {
+  font: inherit; font-size: 12px; padding: 3px 10px; cursor: pointer;
+  border: 1px solid #d6d5d0; border-radius: 999px; background: #fff; color: #0b0b0b;
+}
+.season-buttons button.on { background: #0b0b0b; border-color: #0b0b0b; color: #fff; }
+
+/* ---------- Tooltip ---------- */
+.tooltip {
+  display: none; position: absolute; top: 0; transform: translate(12px, 0);
+  pointer-events: none; z-index: 2;
+  background: #fff; border: 1px solid #e0dfdb; border-radius: 6px; padding: 6px 8px;
+  font-size: 12px; line-height: 1.4; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); white-space: nowrap;
+}
+
+/* Year brush on the timeline: light blue band instead of d3's default gray */
+.brush .selection { fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-opacity: 0.6; }
+
+.footer { margin-top: 16px; font-size: 12px; color: #52514e; }
