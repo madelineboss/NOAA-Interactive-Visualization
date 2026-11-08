@@ -14,7 +14,8 @@ The project has two halves that run at the same time on your computer.
 #### Backend
 Open a terminal.
 From the repo root:
-```cd assignment2/backend
+```
+cd assignment2/backend
 source .venv/bin/activate   #Windows: .venv\Scripts\activate
 pip install fastapi
 pip install uvicorn
@@ -30,7 +31,8 @@ Leave this terminal running.
 #### Frontend
 Open a new (second) terminal.
 From the root:
-```cd assignment2/frontend
+```
+cd assignment2/frontend
 npm install
 npm run dev
 ```
