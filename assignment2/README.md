@@ -36,6 +36,9 @@ npm run dev
 
 Should give http://localhost:5173, if not follow the link it will provide to you.
 
+#### Jupyter Notebook
+It is not necessary to run the jupyter notebook. The data has already been collected and saved into csv files that are in the backend folder. It is just to show how the data was collected.
+This is located at assignment2/Assignment2_data_prep.ipynb
 
 #### Troubleshooting
 If the page is blank, open the browser console and check for errors. 
