@@ -78,6 +78,7 @@ def meta():
         "year_min": int(monthly["year"].min()),
         "year_max": int(monthly["year"].max()),
         "baseline": [BASE_START, BASE_END],
+        "variables": VARS,
         "states": sorted(stations["state"].unique().tolist()),
         "n_stations": len(stations),
     }
