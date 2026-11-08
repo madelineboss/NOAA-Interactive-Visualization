@@ -44,3 +44,15 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px; }
   border: 1px solid #d6d5d0; border-radius: 999px; background: #fff; color: #0b0b0b;
 }
 .season-buttons button.on { background: #0b0b0b; border-color: #0b0b0b; color: #fff; }
+
+/* Map legend */
+.map-legend { display: flex; align-items: flex-start; gap: 24px; font-size: 12px; color: #52514e; margin: 4px 0; }
+.map-legend .gradient { width: 260px; height: 10px; border-radius: 3px; }
+.gradient-labels { display: flex; justify-content: space-between; width: 260px; margin-top: 2px; white-space: nowrap; }
+.map-legend .dot {
+  display: inline-block; width: 11px; height: 11px; border-radius: 50%;
+  border: 1.5px solid #a8a7a1; background: #fff; vertical-align: middle; margin-right: 4px;
+}
+.map-legend .dot.selected { border: 2.5px solid #0b0b0b; background: #f0efec; }
+
+pre { white-space: pre-wrap; word-break: break-all; }

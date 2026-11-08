@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import { getJSON, selectionParams } from "./api";
 import Timeline from "./Timeline";
 import Seasonal from "./Seasonal";
+import MapView from "./MapView";
 
+// The single source of truth for what the user has selected.
 // Views read it and ask App to change it; none keeps its own copy.
 const EMPTY = { var: "tavg", stations: [], years: null, months: [] };
 
@@ -26,6 +28,7 @@ export default function App() {
   // Stable callbacks, so the charts don't redraw on every render
   const onYears = useCallback((years) => setSel((s) => ({ ...s, years })), []);
   const onMonths = useCallback((months) => setSel((s) => ({ ...s, months })), []);
+  const onStations = useCallback((stations) => setSel((s) => ({ ...s, stations })), []);
 
   const meta = useApi("/api/meta");
   // Each view skips its own filter (see backend docstring)
@@ -52,6 +55,14 @@ export default function App() {
       </label>{" "}
       <button onClick={() => setSel(EMPTY)}>Reset</button>
 
+      <MapView
+        data={stations}
+        selected={sel.stations}
+        onStations={onStations}
+        variable={sel.var}
+        unit={unit}
+      />
+
       <Timeline
         data={timeseries}
         context={timeseriesAll}
@@ -75,16 +86,8 @@ export default function App() {
         />
       </div>
 
-      {/* Temporary test button until the map (step 4) exists */}
-      <h2>Test the shared state</h2>
-      <button onClick={() => update({ stations: stations.slice(0, 5).map((s) => s.id) })}>
-        Select 5 stations
-      </button>
-
-      <pre>selection = {JSON.stringify(sel)}</pre>
-      <pre>
-        {`map: ${stations?.length} stations, first value ${stations?.[0]?.value}`}
-      </pre>
+      {/* Temporary: shows the shared selection while we build. Removed in step 6. */}
+      <pre style={{ fontSize: 12, color: "#52514e" }}>selection = {JSON.stringify(sel)}</pre>
     </main>
   );
 }
